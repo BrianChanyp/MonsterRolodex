@@ -20,13 +20,25 @@ class App extends Component {
 			.then((users) => this.setState({ monsters: users })); //set the state
 	}
 
+	onSearchChange = (event) => {
+		//onSearchChange method
+		const searchField = event.target.value.toLocaleLowerCase(); //get the value of the input
+		this.setState(() => {
+			//set the state
+			return { searchField };
+		});
+	};
+
 	render() {
 		//render method
-		const filteredMonsters = this.state.monsters.filter((monster) => {
+		const { monsters, searchField } = this.state; //destructuring
+		const { onSearchChange } = this; //destructuring
+
+		const filteredMonsters = monsters.filter((monster) => {
 			// filter the monsters array
 			return monster.name //return the monster name
 				.toLocaleLowerCase() //convert to lower case
-				.includes(this.state.searchField); //check if the searchField is included in the monster name
+				.includes(searchField); //check if the searchField is included in the monster name
 		});
 
 		return (
@@ -36,12 +48,7 @@ class App extends Component {
 					className="search" //css class
 					type="search" // input type
 					placeholder="search monsters" //placeholder
-					onChange={(event) => {
-						const searchField = event.target.value.toLocaleLowerCase(); //get the value of the input
-						this.setState(() => {
-							return { searchField };
-						}); //set the state
-					}}
+					onChange={onSearchChange} //on change event
 				/>
 				{filteredMonsters.map((monster) => {
 					//map the filteredMonsters array
