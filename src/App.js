@@ -9,6 +9,7 @@ class App extends Component {
 		this.state = {
 			//state is a object
 			monsters: [], //empty array
+			searchField: "", //empty string
 		};
 	}
 
@@ -21,25 +22,29 @@ class App extends Component {
 
 	render() {
 		//render method
+		const filteredMonsters = this.state.monsters.filter((monster) => {
+			// filter the monsters array
+			return monster.name //return the monster name
+				.toLocaleLowerCase() //convert to lower case
+				.includes(this.state.searchField); //check if the searchField is included in the monster name
+		});
+
 		return (
 			//return jsx
 			<div className="App">
 				<input
-					className="search"
-					type="search"
-					placeholder="search monsters"
+					className="search" //css class
+					type="search" // input type
+					placeholder="search monsters" //placeholder
 					onChange={(event) => {
-						const filteredMonsters = this.state.monsters.filter((monster) => {
-							//filter the monsters array
-							return monster.name //return the monster name
-								.toLowerCase() //convert to lowercase
-								.includes(event.target.value.toLowerCase()); //return the monster name that includes the value of the input
-						});
-						this.setState({ monsters: filteredMonsters }); //set the state
+						const searchField = event.target.value.toLocaleLowerCase(); //get the value of the input
+						this.setState(() => {
+							return { searchField };
+						}); //set the state
 					}}
 				/>
-				{this.state.monsters.map((monster) => {
-					//map over the monsters array
+				{filteredMonsters.map((monster) => {
+					//map the filteredMonsters array
 					return (
 						//return jsx
 						<div key={monster.id}>
