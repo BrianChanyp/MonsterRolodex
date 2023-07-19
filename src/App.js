@@ -1,42 +1,36 @@
 import { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
 	constructor() {
-		super();
+		super(); //call the constructor method on the component class
 		this.state = {
-			monsters: [
-				{
-					name: "Frankenstein",
-					id: "asc1",
-				},
-				{
-					name: "Dracula",
-					id: "asc2",
-				},
-				{
-					name: "Zombie",
-					id: "asc3",
-				},
-				{
-					name: "Mummy",
-					id: "asc4",
-				},
-			],
+			//state is a object
+			monsters: [], //empty array
 		};
 	}
+
+	componentDidMount() {
+		//lifecycle method
+		fetch("https://jsonplaceholder.typicode.com/users") //fetch return a response
+			.then((response) => response.json()) //convert to json
+			.then((users) => this.setState({ monsters: users })); //set the state
+	}
 	render() {
+		//render method
 		return (
+			//return jsx
 			<div className="App">
 				{this.state.monsters.map((monster) => {
+					//map over the monsters array
 					return (
+						//return jsx
 						<div key={monster.id}>
 							<h1>{monster.name}</h1>
-						</div>
+						</div> //  key is a unique value
 					);
 				})}
-			</div>
+			</div> //jsx
 		);
 	}
 }
