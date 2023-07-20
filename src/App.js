@@ -1,5 +1,6 @@
-import { Component } from "react";
-import "./App.css";
+import { Component } from "react"; //import Component from react
+import CardList from "./components/card-list/card-list.component"; //import CardList component
+import "./App.css"; //import css file
 
 class App extends Component {
 	//class component
@@ -50,7 +51,7 @@ class App extends Component {
 					placeholder="search monsters" //placeholder
 					onChange={onSearchChange} //on change event
 				/>
-				{filteredMonsters.map((monster) => {
+				{/* {filteredMonsters.map((monster) => {
 					//map the filteredMonsters array
 					return (
 						//return jsx
@@ -58,7 +59,8 @@ class App extends Component {
 							<h1>{monster.name}</h1>
 						</div> //  key is a unique value
 					);
-				})}
+				})} */}
+				<CardList />
 			</div> //jsx
 		);
 	}
