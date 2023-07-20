@@ -60,7 +60,7 @@ class App extends Component {
 						</div> //  key is a unique value
 					);
 				})} */}
-				<CardList />
+				<CardList monsters={filteredMonsters} />
 			</div> //jsx
 		);
 	}
