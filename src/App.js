@@ -1,5 +1,6 @@
 import { Component } from "react"; //import Component from react
 import CardList from "./components/card-list/card-list.component"; //import CardList component
+import SearchBox from "./components/search-box/search-box.component"; //import SearchBox component
 import "./App.css"; //import css file
 
 class App extends Component {
@@ -18,7 +19,15 @@ class App extends Component {
 		//lifecycle method
 		fetch("https://jsonplaceholder.typicode.com/users") //fetch return a response
 			.then((response) => response.json()) //convert to json
-			.then((users) => this.setState({ monsters: users })); //set the state
+			.then(
+				(
+					users //get the users
+				) =>
+					this.setState(() => {
+						//set the state
+						return { monsters: users }; //set the monsters array to the users
+					})
+			);
 	}
 
 	onSearchChange = (event) => {
@@ -31,6 +40,7 @@ class App extends Component {
 	};
 
 	render() {
+		//console.log("render from App.js"); //log render from App.js
 		//render method
 		const { monsters, searchField } = this.state; //destructuring
 		const { onSearchChange } = this; //destructuring
@@ -41,25 +51,14 @@ class App extends Component {
 				.toLocaleLowerCase() //convert to lower case
 				.includes(searchField); //check if the searchField is included in the monster name
 		});
-
 		return (
 			//return jsx
 			<div className="App">
-				<input
-					className="search" //css class
-					type="search" // input type
-					placeholder="search monsters" //placeholder
-					onChange={onSearchChange} //on change event
+				<SearchBox
+					className="search-box"
+					placeholder="search monsters"
+					onChangeHandler={onSearchChange}
 				/>
-				{/* {filteredMonsters.map((monster) => {
-					//map the filteredMonsters array
-					return (
-						//return jsx
-						<div key={monster.id}>
-							<h1>{monster.name}</h1>
-						</div> //  key is a unique value
-					);
-				})} */}
 				<CardList monsters={filteredMonsters} />
 			</div> //jsx
 		);
