@@ -1,5 +1,6 @@
 import { Component } from "react"; //import Component from react
 import CardList from "./components/card-list/card-list.component"; //import CardList component
+import SearchBox from "./components/search-box/search-box.component"; //import SearchBox component
 import "./App.css"; //import css file
 
 class App extends Component {
@@ -50,15 +51,13 @@ class App extends Component {
 				.toLocaleLowerCase() //convert to lower case
 				.includes(searchField); //check if the searchField is included in the monster name
 		});
-
 		return (
 			//return jsx
 			<div className="App">
-				<input
-					className="search" //css class
-					type="search" // input type
-					placeholder="search monsters" //placeholder
-					onChange={onSearchChange} //on change event
+				<SearchBox
+					className="search-box"
+					placeholder="search monsters"
+					onChangeHandler={onSearchChange}
 				/>
 				<CardList monsters={filteredMonsters} />
 			</div> //jsx
