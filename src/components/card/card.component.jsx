@@ -1,9 +1,6 @@
-import { Component } from "react";
-import "./card.styles.css";
+import "./card.styles.css";//importing card.styles.css file
 
-class Card extends Component {
-	render() {
-		const { name, email, id } = this.props.monster;
+const Card = ({monster:{id,name,email}}) => {//passing monster as props and destructuring monster object
 		return (
 			<div className="card-container" key={id}>
 				<img
@@ -14,7 +11,6 @@ class Card extends Component {
 				<p>{email}</p>
 			</div>
 		);
-	}
-}
+	};//creating Card component and destructuring monster object and returning jsx
 
 export default Card;
