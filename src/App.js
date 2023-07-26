@@ -1,69 +1,44 @@
-import { Component } from "react"; //import Component from react
+import { useState, useEffect } from "react"; //import useState and useEffect hooks
 import CardList from "./components/card-list/card-list.component"; //import CardList component
 import SearchBox from "./components/search-box/search-box.component"; //import SearchBox component
 import "./App.css"; //import css file
 
-class App extends Component {
-	//class component
-	constructor() {
-		//constructor method
-		super(); //call the constructor method on the component class
-		this.state = {
-			//state is a object
-			monsters: [], //empty array
-			searchField: "", //empty string
-		};
-	}
-
-	componentDidMount() {
-		//lifecycle method
+const App = () => {
+	const [searchField, setSearchField] = useState(""); //useState hook
+	const [monsters, setMonsters] = useState([]); //useState hook
+	const [filteredMonsters, setFilteredMonsters] = useState(monsters); //useState hook
+	useEffect(() => {
 		fetch("https://jsonplaceholder.typicode.com/users") //fetch return a response
 			.then((response) => response.json()) //convert to json
-			.then(
-				(
-					users //get the users
-				) =>
-					this.setState(() => {
-						//set the state
-						return { monsters: users }; //set the monsters array to the users
-					})
-			);
-	}
+			.then((users) => setMonsters(users)); //set the monsters array to the users
+	}, []);
 
-	onSearchChange = (event) => {
-		//onSearchChange method
-		const searchField = event.target.value.toLocaleLowerCase(); //get the value of the input
-		this.setState(() => {
-			//set the state
-			return { searchField };
+	useEffect(() => {
+		const newfilteredMonsters = monsters.filter((monster) => {
+			return monster.name.toLowerCase().includes(searchField);
 		});
+
+		setFilteredMonsters(newfilteredMonsters);
+	}, [monsters, searchField]);
+
+	//functional component
+	const onSearchChange = (event) => {
+		//onSearchChange method
+		const searchFieldString = event.target.value.toLocaleLowerCase(); //get the value of the input
+		setSearchField(searchFieldString); //set the searchField to the value of the input
 	};
 
-	render() {
-		//console.log("render from App.js"); //log render from App.js
-		//render method
-		const { monsters, searchField } = this.state; //destructuring
-		const { onSearchChange } = this; //destructuring
-
-		const filteredMonsters = monsters.filter((monster) => {
-			// filter the monsters array
-			return monster.name //return the monster name
-				.toLocaleLowerCase() //convert to lower case
-				.includes(searchField); //check if the searchField is included in the monster name
-		});
-		return (
-			//return jsx
-			<div className="App">
-				<h1 className="app-title">Monsters Rolodex</h1>
-				<SearchBox
-					className="monsters-search-box"
-					placeholder="search monsters"
-					onChangeHandler={onSearchChange}
-				/>
-				<CardList monsters={filteredMonsters} />
-			</div> //jsx
-		);
-	}
-}
-
+	return (
+		//return jsx
+		<div className="App">
+			<h1 className="app-title">Monsters Rolodex</h1>
+			<SearchBox
+				className="monsters-search-box"
+				placeholder="search monsters"
+				onChangeHandler={onSearchChange}
+			/>
+			<CardList monsters={filteredMonsters} />
+		</div>
+	);
+};
 export default App;
